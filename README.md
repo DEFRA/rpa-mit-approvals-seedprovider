@@ -1,20 +1,63 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+# EST.MIT.Approvals.SeedProvider
+A minimal api for supplying invoice template reference data (.NET 6)
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Running Application
+### Requirements
+* Git
+* .NET 6 SDK
+* PostgreSQL
+* Access to the DEFRA-EST ADO Artifact Feed
+* **Optional:** Docker - Only needed if running PostgreSQL within container
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+### Environment Variables
+The following environment variables are required by the application.
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+| Name              	| Description                         	| Default                         	|
+|-------------------	|-------------------------------------	|---------------------------------	|
+| POSTGRES_HOST     	| Hostname of the Postgres server     	| est-mit-approvals-postgres 	|
+| POSTGRES_DB       	| Name of the reference data database 	| est-mit-approvals          	|
+| POSTGRES_USER     	| Postgres username                   	| postgres                        	|
+| POSTGRES_PASSWORD 	| Postgres password                   	| password                        	|
+| POSTGRES_PORT     	| Postgres server port                	| 5432                            	|
+| SCHEMA_DEFAULT    	| Default schema name                 	| public                          	|
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+When running using Docker / Docker Compose these values are populated from environment variables.
+
+If running locally using `dotnet run` the values are populated from dotnet user-secrets. Please see [Safe storage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=windows)
+
+### Add Private Package Feed
+This project uses a private NuGet package to store seed data.
+
+Follow this guide to add the private feed to Visual Studio:
+[Install NuGet packages with Visual Studio](https://learn.microsoft.com/en-us/azure/devops/artifacts/nuget/consume?view=azure-devops&tabs=windows)
+
+### Seeding Reference Data
+**Important**: The seed ref data provider will reset the connected database to reference data defaults.
+
+The seed provider uses dotnet user secrets to store Postgres connection parameters.
+```cs
+cd EST.MIT.Approvals.SeedProvider
+dotnet run
+```
+
+This application dynamically seeds reference data into the database based on Json files from the `EST.MIT.Approvals` package.
+
+#### Export Reference Data
+You can export the seed data to SQL scripts by using `docker-compose.seed.yaml`.
+
+```ps
+docker compose -f docker-compose.seed.yaml
+```
+
+The seed operation has completed when the following log entry is displayed:
+```log
+info: Program[0]
+      Seeding reference data completed in 14 seconds
+```
+
+Once the logs show that the seed operation has completed, run the following command to dump tables:
+```ps
+docker exec est-mit-approvals-est-mit-approvals-postgres-1 sh /home/postgres/extract-seed-data.sh
+```
+
+This will store the SQL INSERT scripts for each table in the `mit_approvals` database in `{SOLUTION_DIR}/seed-data-scripts`.
