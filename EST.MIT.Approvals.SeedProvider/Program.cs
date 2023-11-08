@@ -9,9 +9,9 @@ var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 var logger = loggerFactory.CreateLogger<Program>();
 
 var config = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json")
     .AddUserSecrets<Program>()
     .AddEnvironmentVariables()
-    .AddJsonFile("appsettings.json")
     .Build();
 
 var host = config["POSTGRES_HOST"];

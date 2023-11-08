@@ -1,27 +1,26 @@
 # EST.MIT.Approvals.SeedProvider
-A minimal api for supplying invoice template reference data (.NET 6)
+A minimal api for supplying information about approvals (.NET 6)
 
 ## Running Application
 ### Requirements
 * Git
 * .NET 6 SDK
 * PostgreSQL
-* Access to the DEFRA-EST ADO Artifact Feed
+* A PAT token with access to the DEFRA-EST ADO Artifact Feed. 
 * **Optional:** Docker - Only needed if running PostgreSQL within container
 
 ### Environment Variables
-The following environment variables are required by the application.
+The following environment variables need to be set in the AppSettings.json whilst debugging.
 
 | Name              	| Description                         	| Default                         	|
 |-------------------	|-------------------------------------	|---------------------------------	|
-| POSTGRES_HOST     	| Hostname of the Postgres server     	| 127.0.0.1 	                  |
-| POSTGRES_DB       	| Name of the reference data database 	| est-mit-approvals           	|
+| POSTGRES_HOST     	| Hostname of the Postgres server     	| <postgres_server> 	            |
+| POSTGRES_DB       	| Name of the reference data database 	| rpa_mit_aprovals               	|
 | POSTGRES_USER     	| Postgres username                   	| postgres                        	|
-| POSTGRES_PASSWORD 	| Postgres password                   	| pass@word1                       	|
+| POSTGRES_PASSWORD 	| Postgres password                   	| password                       	|
 | POSTGRES_PORT     	| Postgres server port                	| 5432                            	|
-| SCHEMA_DEFAULT    	| Default schema name                 	| public                          	|
 
-When running using Docker / Docker Compose these values are populated from environment variables.
+When running using Docker / Docker Compose these values are populated from environment variables defined in the .env file. You will need to set PACKAGE_FEED_USERNAME and PACKAGE_FEED_PAT.
 
 If running locally using `dotnet run` the values are populated from dotnet user-secrets (or system level environment variables). Please see [Safe storage of app secrets in development in ASP.NET Core](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-6.0&tabs=windows)
 
@@ -34,18 +33,22 @@ Follow this guide to add the private feed to Visual Studio:
 ### Seeding Reference Data
 **Important**: The seed ref data provider will reset the connected database to reference data defaults.
 
-#### Postgres within Docker container
-Get the latest postgres docker image
+#### Running within a Docker container
+Set the PACKAGE_FEED_USERNAME and PACKAGE_FEED_PAT in the .env file. NOTE: ensure these credentials aren't in your commits.
 
-```ps
-docker pull postgres
+Then run:
+```
+docker compose up --build
 ```
 
-Then spin up a container
-```ps
-docker run --name approvals-postgres -p 5432:5432 -e POSTGRES_PASSWORD=pass@word1 -d postgres
-```
-Use the values in the above steps and set the relevant env vars.
+In a web browser go to: http://localhost:5050/browser/
+
+Register Server
+- Host name: host.docker.internal.
+- Username: postgres
+- Password: password
+
+You should see the rpa_mit_approvals database and tables.
 
 #### Postgres running locally
 Use the values specified when Postgres was locally installed and set the relevant env vars.

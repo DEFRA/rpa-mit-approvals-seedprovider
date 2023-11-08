@@ -1,0 +1,5 @@
+{{- if .Values.pr }}
+{{- include "ffc-helm-library.role-binding" (list . "rpa-mit-approvals-seedprovider.role-binding") -}}
+{{- end }}
+{{- define "rpa-mit-approvals-seedprovider.role-binding" -}}
+{{- end -}}
