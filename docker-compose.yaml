@@ -10,7 +10,6 @@ services:
         - PACKAGE_FEED_USERNAME=${PACKAGE_FEED_USERNAME:-PAT}
         - PACKAGE_FEED_PAT=${PACKAGE_FEED_PAT}
     image: est-mit-approvals-seed-provider
-    container_name: est-mit-approvals-seed-provider
     depends_on:
       - est-mit-approvals-postgres
     environment:
@@ -20,7 +19,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASS:-password}
       POSTGRES_PORT: "5432"
       SCHEMA_DEFAULT: ${POSTGRES_SCHEMA_NAME:-public}
-    entrypoint: out/EST.MIT.Approvals.SeedProvider
+    entrypoint: /home/dotnet/out/EST.MIT.Approvals.SeedProvider
     networks:
       - postgres
 
@@ -39,7 +38,6 @@ services:
       - ./seed-data-scripts:/home/postgres/seed-data-scripts/
 
   pgadmin:
-    container_name: pgadmin
     image: dpage/pgadmin4:latest
     environment:
       - PGADMIN_DEFAULT_EMAIL=${PGADMIN_MAIL-mit@defra.gov.uk}

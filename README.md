@@ -38,13 +38,13 @@ Set the PACKAGE_FEED_USERNAME and PACKAGE_FEED_PAT in the .env file. NOTE: ensur
 
 Then run:
 ```
-docker compose up --build
+ docker compose -f docker-compose.yaml up --build 
 ```
 
 In a web browser go to: http://localhost:5050/browser/
 
 Register Server
-- Host name: host.docker.internal.
+- Host name: host.docker.internal
 - Username: postgres
 - Password: password
 
