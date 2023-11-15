@@ -1,3 +1,5 @@
+import java.io.File
+
 @Library('defra-library@v-9') _
 
 def validateClosure = {
