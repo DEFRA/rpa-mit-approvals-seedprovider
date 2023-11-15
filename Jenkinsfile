@@ -10,7 +10,7 @@ def validateClosure = {
 
     def envFile = new File(".env")
     envFile.createNewFile()
-    envFile.text="Text content"
+    // envFile.text="Text content"
 
   }
 }
