@@ -17,8 +17,8 @@ def validateClosure = {
         </packageSources>
         <packageSourceCredentials>
             <DEFRA>
-            <add key='Username' value='${PACKAGE_FEED_USERNAME}' />
-            <add key='ClearTextPassword' value='${PACKAGE_FEED_PAT}' />
+            <add key='Username' value='${MIT_PACKAGE_FEED_USERNAME}' />
+            <add key='ClearTextPassword' value='${MIT_PACKAGE_FEED_PAT}' />
             </DEFRA>
         </packageSourceCredentials>
         </configuration>"""
