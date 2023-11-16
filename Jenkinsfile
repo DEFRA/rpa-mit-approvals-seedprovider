@@ -7,7 +7,7 @@ def validateClosure = {
     echo "MIT_PACKAGE_FEED_URL: ${MIT_PACKAGE_FEED_URL}"
     echo "MIT_PACKAGE_FEED_USERNAME: ${MIT_PACKAGE_FEED_USERNAME}"
 
-    writeFile file: './EST.MIT.Approvals.SeedProvider/nuget.config', text: "
+    writeFile file: './EST.MIT.Approvals.SeedProvider/nuget.config', text: """
         <?xml version='1.0' encoding='utf-8'?>
         <configuration>
         <packageSources>
@@ -21,7 +21,7 @@ def validateClosure = {
             <add key='ClearTextPassword' value='${PACKAGE_FEED_PAT}' />
             </DEFRA>
         </packageSourceCredentials>
-        </configuration>"
+        </configuration>"""
   }
 }
 buildDotNetCore project: 'EST.MIT.Approvals.SeedProvider', validateClosure: validateClosure
