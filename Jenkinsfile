@@ -12,7 +12,7 @@ def validateClosure = {
     // envFile.createNewFile()
     // // envFile.text="Text content"
 
-    writeFile file: 'example.txt', text: 'This is an example file.'
+    writeFile file: '.env', text: "PACKAGE_FEED_URL=${MIT_PACKAGE_FEED_URL}"
 
     // new File('.env').withWriter('utf-8') { 
     //      writer -> writer.writeLine 'Hello World' 
