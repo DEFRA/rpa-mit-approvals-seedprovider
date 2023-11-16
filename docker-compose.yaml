@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  rpa-mit-approvals-seed-provider:
+  rpa-mit-approvals-seedprovider:
     build:
       context: .
       target: development
@@ -9,7 +9,7 @@ services:
         - PACKAGE_FEED_URL=${PACKAGE_FEED_URL}
         - PACKAGE_FEED_USERNAME=${PACKAGE_FEED_USERNAME:-PAT}
         - PACKAGE_FEED_PAT=${PACKAGE_FEED_PAT}
-    image: rpa-mit-approvals-seed-provider
+    image: rpa-mit-approvals-seedprovider
     depends_on:
       - rpa-mit-approvals-postgres
     environment:
