@@ -8,9 +8,13 @@ def validateClosure = {
     echo "MIT_PACKAGE_FEED_USERNAME: ${MIT_PACKAGE_FEED_USERNAME}"
   //  echo "MIT_PACKAGE_FEED_PAT: ${MIT_PACKAGE_FEED_PAT}"
 
-    def envFile = new File(".env")
-    envFile.createNewFile()
-    // envFile.text="Text content"
+    // def envFile = new File(".env")
+    // envFile.createNewFile()
+    // // envFile.text="Text content"
+
+    new File('.env').withWriter('utf-8') { 
+         writer -> writer.writeLine 'Hello World' 
+      }  
 
   }
 }
