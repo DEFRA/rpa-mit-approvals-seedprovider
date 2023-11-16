@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  est-mit-approvals-seedprovider:
+  rpa-mit-approvals-seed-provider:
     build:
       target: development
     ports:
@@ -9,7 +9,7 @@ services:
     volumes:
       - ./EST.MIT.Approvals.SeedProvider:/home/dotnet/EST.MIT.Approvals.SeedProvider
       
-  est-mit-approvals-postgres:
+  rpa-mit-approvals-postgres:
     ports:
       - "5432:5432"
     volumes:
