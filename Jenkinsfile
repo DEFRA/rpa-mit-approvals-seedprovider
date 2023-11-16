@@ -4,12 +4,6 @@ import java.io.File
 
 def validateClosure = {
   stage('nuget.config Transform') {
-    echo "MIT_PACKAGE_FEED_URL: ${MIT_PACKAGE_FEED_URL}"
-    echo "MIT_PACKAGE_FEED_USERNAME: ${MIT_PACKAGE_FEED_USERNAME}"
-
-    def before = readFile file: './EST.MIT.Approvals.SeedProvider/nuget.config'
-    echo  before
-
     writeFile file: './EST.MIT.Approvals.SeedProvider/nuget.config', text: """<?xml version='1.0' encoding='utf-8'?>
         <configuration>
         <packageSources>
@@ -25,9 +19,11 @@ def validateClosure = {
         </packageSourceCredentials>
         </configuration>""", encoding: "UTF-8"
 
-    def after = readFile file: './EST.MIT.Approvals.SeedProvider/nuget.config'
-    echo  after
-
+    writeFile file: './.env', text: """
+        PACKAGE_FEED_URL=${MIT_PACKAGE_FEED_URL}
+        PACKAGE_FEED_USERNAME=${MIT_PACKAGE_FEED_USERNAME}
+        PACKAGE_FEED_PAT=${MIT_PACKAGE_FEED_PAT}
+    """
   }
 }
 buildDotNetCore project: 'EST.MIT.Approvals.SeedProvider', validateClosure: validateClosure
