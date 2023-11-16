@@ -7,7 +7,8 @@ def validateClosure = {
     echo "MIT_PACKAGE_FEED_URL: ${MIT_PACKAGE_FEED_URL}"
     echo "MIT_PACKAGE_FEED_USERNAME: ${MIT_PACKAGE_FEED_USERNAME}"
 
-    echo readFile file: './EST.MIT.Approvals.SeedProvider/nuget.config'
+    def before = readFile file: './EST.MIT.Approvals.SeedProvider/nuget.config'
+    echo  before
 
     writeFile file: './EST.MIT.Approvals.SeedProvider/nuget.config', text: """<?xml version='1.0' encoding='utf-8'?>
         <configuration>
@@ -24,7 +25,9 @@ def validateClosure = {
         </packageSourceCredentials>
         </configuration>""", encoding: "UTF-8"
 
-    echo readFile file: './EST.MIT.Approvals.SeedProvider/nuget.config'
+    def after = readFile file: './EST.MIT.Approvals.SeedProvider/nuget.config'
+    echo  after
+
   }
 }
 buildDotNetCore project: 'EST.MIT.Approvals.SeedProvider', validateClosure: validateClosure
