@@ -24,3 +24,15 @@ COPY --chown=dotnet:dotnet ./EST.MIT.Approvals.SeedProvider/ ./EST.MIT.Approvals
 COPY --chown=dotnet:dotnet ./EST.MIT.Approvals/EST.MIT.Approvals.Data/ ./EST.MIT.Approvals/EST.MIT.Approvals.Data/
 
 RUN dotnet publish ./EST.MIT.Approvals.SeedProvider/ -c Release -o /home/dotnet/out
+
+# Production
+FROM defradigital/dotnetcore:$PARENT_VERSION AS production
+
+ARG PARENT_VERSION
+ARG PARENT_REGISTRY
+
+LABEL uk.gov.defra.parent-image=defra-dotnetcore-development:${PARENT_VERSION}
+
+COPY --from=development /home/dotnet/out/ ./
+
+CMD dotnet EST.MIT.Approvals.SeedProvider.dll

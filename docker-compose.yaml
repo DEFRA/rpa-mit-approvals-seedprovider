@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  est-mit-approvals-seed-provider:
+  rpa-mit-approvals-seedprovider:
     build:
       context: .
       target: development
@@ -9,11 +9,11 @@ services:
         - PACKAGE_FEED_URL=${PACKAGE_FEED_URL}
         - PACKAGE_FEED_USERNAME=${PACKAGE_FEED_USERNAME:-PAT}
         - PACKAGE_FEED_PAT=${PACKAGE_FEED_PAT}
-    image: est-mit-approvals-seed-provider
+    image: rpa-mit-approvals-seedprovider
     depends_on:
-      - est-mit-approvals-postgres
+      - rpa-mit-approvals-postgres
     environment:
-      POSTGRES_HOST: ${POSTGRES_HOST:-est-mit-approvals-postgres}
+      POSTGRES_HOST: ${POSTGRES_HOST:-rpa-mit-approvals-postgres}
       POSTGRES_DB: rpa_mit_approvals
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASS:-password}
@@ -23,7 +23,7 @@ services:
     networks:
       - postgres
 
-  est-mit-approvals-postgres:
+  rpa-mit-approvals-postgres:
     image: postgres:15.3-alpine
     environment:
       POSTGRES_DB: rpa_mit_approvals
