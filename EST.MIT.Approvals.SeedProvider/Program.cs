@@ -22,7 +22,7 @@ var pass = config["POSTGRES_PASSWORD"];
 
 var postgres = string.Format(config["DbConnectionTemplate"]!, host, port, db, user, pass);
 
-logger.LogInformation($"DbConnectionTemplate: {postgres}");
+logger.LogInformation("DbConnectionTemplate: {postgres}", postgres);
 
 var optionsBuilder = new DbContextOptionsBuilder<ApprovalsContext>();
 
