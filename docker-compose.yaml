@@ -4,7 +4,7 @@ services:
   rpa-mit-approvals-seedprovider:
     build:
       context: .
-      target: development
+      target: production
       args:
         - PACKAGE_FEED_URL=${PACKAGE_FEED_URL}
         - PACKAGE_FEED_USERNAME=${PACKAGE_FEED_USERNAME:-PAT}

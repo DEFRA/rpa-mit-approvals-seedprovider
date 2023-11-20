@@ -19,6 +19,8 @@ public static class SeedProvider
     {
         var sw = Stopwatch.StartNew();
 
+        logger.LogInformation("Startig seeding...");
+
         //context.Database.EnsureDeleted();
         //context.Database.EnsureCreated();
 
