@@ -69,7 +69,8 @@ public class AadAuthenticationInterceptor : DbConnectionInterceptor
             pass = TokenCache.AccessToken.Value.Token;
         }
 
-        return string.Format(_configuration["DbConnectionTemplate"]!, host, port, db, user, pass);
+        string connectionString = string.Format(_configuration["DbConnectionTemplate"]!, host, port, db, user, pass);
+        return connectionString;
    }
 
     public bool IsLocalDatabase()
