@@ -19,7 +19,6 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASS:-password}
       POSTGRES_PORT: "5432"
       SCHEMA_DEFAULT: ${POSTGRES_SCHEMA_NAME:-public}
-    entrypoint: /home/dotnet/out/EST.MIT.Approvals.SeedProvider
     networks:
       - postgres
 

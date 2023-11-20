@@ -35,4 +35,4 @@ LABEL uk.gov.defra.parent-image=defra-dotnetcore-development:${PARENT_VERSION}
 
 COPY --from=development /home/dotnet/out/ ./
 
-CMD dotnet EST.MIT.Approvals.SeedProvider.dll
+CMD dotnet ./EST.MIT.Approvals.SeedProvider.dll

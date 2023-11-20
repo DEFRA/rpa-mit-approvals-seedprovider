@@ -3,6 +3,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using EST.MIT.Approvals.Data;
 using EST.MIT.Approvals.SeedProvider.Provider;
+using EST.MIT.Approvals.Api.Authentication;
+using Microsoft.Extensions.Options;
 
 var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
 
@@ -14,20 +16,50 @@ var config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-var host = config["POSTGRES_HOST"];
-var db = config["POSTGRES_DB"];
-var port = config["POSTGRES_PORT"];
-var user = config["POSTGRES_USER"];
-var pass = config["POSTGRES_PASSWORD"];
+var interceptor = new AadAuthenticationInterceptor(new TokenGenerator(), config, true);
+var connStringTask = interceptor.GetConnectionStringAsync();
+var connString = connStringTask.GetAwaiter().GetResult();
 
-var postgres = string.Format(config["DbConnectionTemplate"]!, host, port, db, user, pass);
+//options
+//    .UseNpgsql(
+//        connString,
+//        x => x.MigrationsAssembly("EST.MIT.Approvals.Data")
+//    )
+//    .UseSnakeCaseNamingConvention();
+
+
+//builder.Services.AddDbContext<ApprovalsContext>(options =>
+//{
+//    var connStringTask = interceptor.GetConnectionStringAsync();
+//    var connString = connStringTask.GetAwaiter().GetResult();
+
+//    options.AddInterceptors(interceptor);
+
+//    options
+//        .UseNpgsql(
+//            connString,
+//            x => x.MigrationsAssembly("EST.MIT.Approvals.Data")
+//        )
+//        .UseSnakeCaseNamingConvention();
+//});
+
+
+//var host = config["POSTGRES_HOST"];
+//var db = config["POSTGRES_DB"];
+//var port = config["POSTGRES_PORT"];
+//var user = config["POSTGRES_USER"];
+//var pass = config["POSTGRES_PASSWORD"];
+
+//var postgres = string.Format(config["DbConnectionTemplate"]!, host, port, db, user, pass);
+
+//logger.LogInformation("DbConnectionTemplate: {postgres}", postgres);
 
 var optionsBuilder = new DbContextOptionsBuilder<ApprovalsContext>();
 
 optionsBuilder.UseLoggerFactory(loggerFactory);
 
 optionsBuilder.UseNpgsql(
-        postgres,
+        connString,
         x => x.MigrationsAssembly("EST.MIT.Approvals.Data")
     )
     .UseSnakeCaseNamingConvention();
