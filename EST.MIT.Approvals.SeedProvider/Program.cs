@@ -20,6 +20,8 @@ var interceptor = new AadAuthenticationInterceptor(new TokenGenerator(), config,
 var connStringTask = interceptor.GetConnectionStringAsync();
 var connString = connStringTask.GetAwaiter().GetResult();
 
+logger.LogInformation("Connection string: {connString}", connString);
+
 //options
 //    .UseNpgsql(
 //        connString,
