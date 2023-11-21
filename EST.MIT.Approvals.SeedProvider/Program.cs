@@ -16,45 +16,12 @@ var config = new ConfigurationBuilder()
     .AddEnvironmentVariables()
     .Build();
 
-var interceptor = new AadAuthenticationInterceptor(new TokenGenerator(), config, true);
+var isProd = (Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT") != "Development");
+var interceptor = new AadAuthenticationInterceptor(new TokenGenerator(), config, isProd);
 var connStringTask = interceptor.GetConnectionStringAsync();
 var connString = connStringTask.GetAwaiter().GetResult();
 
 logger.LogInformation("Connection string: {connString}", connString);
-
-//options
-//    .UseNpgsql(
-//        connString,
-//        x => x.MigrationsAssembly("EST.MIT.Approvals.Data")
-//    )
-//    .UseSnakeCaseNamingConvention();
-
-
-//builder.Services.AddDbContext<ApprovalsContext>(options =>
-//{
-//    var connStringTask = interceptor.GetConnectionStringAsync();
-//    var connString = connStringTask.GetAwaiter().GetResult();
-
-//    options.AddInterceptors(interceptor);
-
-//    options
-//        .UseNpgsql(
-//            connString,
-//            x => x.MigrationsAssembly("EST.MIT.Approvals.Data")
-//        )
-//        .UseSnakeCaseNamingConvention();
-//});
-
-
-//var host = config["POSTGRES_HOST"];
-//var db = config["POSTGRES_DB"];
-//var port = config["POSTGRES_PORT"];
-//var user = config["POSTGRES_USER"];
-//var pass = config["POSTGRES_PASSWORD"];
-
-//var postgres = string.Format(config["DbConnectionTemplate"]!, host, port, db, user, pass);
-
-//logger.LogInformation("DbConnectionTemplate: {postgres}", postgres);
 
 var optionsBuilder = new DbContextOptionsBuilder<ApprovalsContext>();
 
@@ -68,4 +35,4 @@ optionsBuilder.UseNpgsql(
 
 var context = new ApprovalsContext(optionsBuilder.Options);
 
-SeedProvider.SeedReferenceData(context, logger);
+SeedProvider.SeedReferenceData(context, logger, isProd);
