@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "EST.MIT.Approvals.SeedProvider": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}
