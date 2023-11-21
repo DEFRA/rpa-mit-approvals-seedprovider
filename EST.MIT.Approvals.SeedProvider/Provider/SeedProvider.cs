@@ -21,7 +21,7 @@ public static class SeedProvider
 
         logger.LogInformation("Startig seeding...");
 
-        //context.Database.EnsureDeleted();
+        context.Database.EnsureDeleted();
         context.Database.EnsureCreated();
 
         context.SeedData(context.Schemes, ReadSeedData<SchemeEntity>($"{BaseDir}/schemes.json"));
