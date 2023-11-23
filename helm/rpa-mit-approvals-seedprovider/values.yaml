@@ -20,8 +20,8 @@ containerSecret:
   name: rpa-mit-approvals-seedprovider-container-secret
   type: Opaque
 
-deployment:
-  restartPolicy: Always
+job:
+  restartPolicy: never
   priorityClassName: low
   replicas: 1
   minReadySeconds: 5
